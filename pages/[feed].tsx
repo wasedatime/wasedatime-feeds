@@ -7,17 +7,23 @@ import path from "path";
 const Feed = ({ feed, updatedAt }) => {
   const router = useRouter();
 
+  const Img = ({ alt, src, title }: { alt: string; src: string; title: string }) => {
+    return (
+      <img src={require(`../public/feeds/${src}`)} alt={alt} style={{ maxWidth: '100%' }} />
+    );
+  };
+
   return (
-    <div>
+    <div style={{ margin: '1em' }}>
       <Head>
         <title>{"WasedaTime Feeds: " + router.query.feed}</title>
         <meta name="description" content={"WasedaTime Feeds: " + router.query.feed} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1>{router.query.feed}</h1>
-      <p>{updatedAt}</p>
+      <h1>{router.query.feed.replace(/-/g, ' ')}</h1>
+      <p>Last updated: {updatedAt}</p>
       <div>
-        <ReactMarkdown children={feed} />
+        <ReactMarkdown components={{ img: Img }} children={feed} />
       </div>
     </div>
   )
